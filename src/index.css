@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    background-color: #030712;
+  }
+  
+  body {
+    overflow-x: hidden;
+    background-color: #030712;
+  }
+}
+
+/* Custom Tech HUD styles */
+.hud-corner-tl {
+  position: relative;
+}
+.hud-corner-tl::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #00F0FF;
+  border-left: 2px solid #00F0FF;
+}
+
+.hud-corner-tr {
+  position: relative;
+}
+.hud-corner-tr::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #00F0FF;
+  border-right: 2px solid #00F0FF;
+}
+
+.hud-panel {
+  background: rgba(10, 25, 47, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 162, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.hud-panel-active {
+  background: rgba(12, 30, 60, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 210, 255, 0.5);
+  box-shadow: 0 0 25px rgba(0, 162, 255, 0.25), inset 0 0 15px rgba(0, 162, 255, 0.1);
+}
+
+/* Animated Tech Grid Overlay */
+.tech-bg-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 162, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 162, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Glow Utilities */
+.text-glow-blue {
+  text-shadow: 0 0 12px rgba(0, 162, 255, 0.6);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+}
+
+.glow-box-blue {
+  box-shadow: 0 0 30px rgba(0, 119, 255, 0.3);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+::-webkit-scrollbar-thumb {
+  background: #0A2540;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 162, 255, 0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0077FF;
+}
+
+/* Presentation mode: the document stays fixed while the viewer changes slides. */
+html, body, #root { width: 100%; height: 100%; overflow: hidden; }
+.presentation-app { width: 100%; height: 100dvh; min-height: 0; overflow: hidden; }
+.presentation-stage { position: fixed; inset: 0; overflow: hidden; }
+.presentation-slide { position: absolute; inset: 0; height: 100%; animation: slide-enter 320ms cubic-bezier(0.2, 0.75, 0.25, 1) both; }
+.presentation-slide > section { height: 100%; min-height: 0 !important; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; padding-top: 6.5rem !important; padding-bottom: 6.25rem !important; }
+.presentation-slide > section::-webkit-scrollbar { display: none; }
+@keyframes slide-enter { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+.slide-from--1 { animation-name: slide-enter-reverse; }
+@keyframes slide-enter-reverse { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }
+.presentation-controls { position: fixed; z-index: 60; left: 50%; bottom: max(.75rem, env(safe-area-inset-bottom)); transform: translateX(-50%); display: flex; align-items: center; gap: .8rem; padding: .45rem .65rem; border: 1px solid rgba(34,211,238,.28); border-radius: 9999px; background: rgba(3,7,18,.9); backdrop-filter: blur(14px); box-shadow: 0 8px 30px rgba(0,0,0,.35); }
+.slide-arrow { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; color: #a5f3fc; border: 1px solid rgba(34,211,238,.25); border-radius: 9999px; background: rgba(15,23,42,.85); transition: background 150ms ease, opacity 150ms ease, transform 150ms ease; }
+.slide-arrow:hover:not(:disabled) { background: rgba(8,145,178,.35); transform: scale(1.06); }
+.slide-arrow:disabled { opacity: .35; cursor: not-allowed; }
+.slide-pagination { min-width: 7.5rem; text-align: center; font-family: 'Space Grotesk', sans-serif; }
+.slide-counter { display: none; color: #67e8f9; font-size: .68rem; letter-spacing: .14em; }
+.slide-dots { display: flex; align-items: center; justify-content: center; gap: .35rem; padding: .45rem 0 .2rem; }
+.slide-dot { width: .38rem; height: .38rem; padding: 0; border: 0; border-radius: 9999px; background: #475569; transition: width 180ms ease, background 180ms ease; }
+.slide-dot.active { width: 1.15rem; background: #22d3ee; box-shadow: 0 0 12px rgba(34,211,238,.65); }
+.slide-name { color: #94a3b8; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; }
+@media (min-width: 640px) { .slide-pagination { min-width: 10rem; } .slide-counter { display: block; } }
+@media (prefers-reduced-motion: reduce) { .presentation-slide { animation-duration: 1ms; } }
+
+/* Fit each existing long-form section to a fixed presentation frame. */
+.presentation-slide > section {
+  width: 125%;
+  height: 125%;
+  zoom: 0.8;
+  overflow: hidden;
+}
+
+@media (min-height: 950px) {
+  .presentation-slide > section { width: 113.64%; height: 113.64%; zoom: 0.88; }
+}
+
+@media (max-height: 800px) {
+  .presentation-slide > section { width: 147.06%; height: 147.06%; zoom: 0.68; }
+}
+
+@media (max-width: 640px) {
+  .presentation-slide > section { width: 142.86%; height: 142.86%; zoom: 0.7; }
+}
+
+@media (max-width: 640px) and (max-height: 700px) {
+  .presentation-slide > section { width: 153.85%; height: 153.85%; zoom: 0.65; }
+}
